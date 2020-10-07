@@ -10,3 +10,6 @@ scikit-learn
 awscli
 requests==2.20.0  # temp
 sagemaker  # temp
+scikit-image
+#opencv-python
+opencv-python-headless

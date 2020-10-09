@@ -14,6 +14,7 @@ import pandas as pd
 
 from io import StringIO
 from keras.models import load_model
+from tensorflow.keras.layers import LeakyReLU
 
 import matplotlib.pyplot as plt
 
@@ -28,8 +29,9 @@ H = 28
 W = 28
 
 #load the model
-model = load_model('clf.h5')
-clf = model
+#, custom_objects={'leakyrelu': Activation(LeakyReLU)}
+model = load_model('clf_new.pb')
+#clf = model
 
 #run model
 def run_model(input_arr, rows = 1):

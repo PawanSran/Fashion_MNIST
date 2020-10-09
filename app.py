@@ -29,14 +29,12 @@ H = 28
 W = 28
 
 #load the model
-#, custom_objects={'leakyrelu': Activation(LeakyReLU)}
-model = load_model('clf_new.pb')
-#clf = model
+model = load_model('clf_new.h5')
 
 #run model
 def run_model(input_arr, rows = 1):
-    input_arr = input_arr.reshape(rows, 28, 28, 1).astype('float') / 255
-    return model.predict(input_arr).argmax(axis=1)
+    input_arr_1 = input_arr.reshape(rows, 28, 28, 1).astype('float')/255
+    return model.predict(input_arr_1).argmax(axis=1)
 
 @app.route('/', methods=['GET'])
 def index_page():
@@ -52,8 +50,11 @@ def predict():
     file.save(filename)
     
     img = cv2.imread(filename, cv2.IMREAD_COLOR)
+    print(img.shape)
     img = cv2.resize(img, (28, 28))
+    print(img.shape)
     img=cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    print(img.shape)
     
     out = run_model(img)
     #model.predict(img)
@@ -64,7 +65,7 @@ def predict():
     
         
 # Below model as api ( call with specific test data in request and get response )
-# define a ping  function as an endpoint to check health of the service
+# not-used define a ping  function as an endpoint to check health of the service
 @app.route("/ping", methods=["GET"])
 def ping():
     #health check for container
@@ -77,7 +78,7 @@ def ping():
         return Response(response='{"status": "error"}', status=500, mimetype='application/json')    
     
     
-#define the predict function to predict output   
+#not -used define the predict function to predict output   
 @app.route("/invocations", methods=["POST"])
 def predict_1():
     if flask.request.content_type == "text/csv":

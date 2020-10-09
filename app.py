@@ -50,11 +50,11 @@ def predict():
     file.save(filename)
     
     img = cv2.imread(filename, cv2.IMREAD_COLOR)
-    print(img.shape)
+    
     img = cv2.resize(img, (28, 28))
-    print(img.shape)
+    
     img=cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    print(img.shape)
+    
     
     out = run_model(img)
     #model.predict(img)

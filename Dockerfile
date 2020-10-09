@@ -19,8 +19,9 @@ RUN ["pip", "install", "-r", "requirements.txt"]
 
 COPY "fashion_mnist.ipynb" .
 
-EXPOSE 8080
-CMD ["python", "app.py"]
+EXPOSE 5000
+
+ENTRYPOINT ["python" , "app.py"]
 
 # install environment dependencies
 #COPY "catalog-screencap.png" .

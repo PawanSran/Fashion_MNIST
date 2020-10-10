@@ -3,9 +3,9 @@ pandas
 flask
 tensorflow
 keras
-jupyter
-seaborn
-scikit-learn
-requests==2.20.0  # temp
-scikit-image
 opencv-python-headless
+#jupyter
+#seaborn
+#scikit-learn
+#requests==2.20.0  # temp
+#scikit-image

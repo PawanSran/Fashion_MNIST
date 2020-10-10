@@ -1,23 +1,13 @@
 import flask
 from flask import Flask, render_template, request, redirect, Response
 
-from werkzeug.utils import secure_filename
-
 import os
-
-from skimage import color
-from skimage import data
 import cv2
 import numpy as np
-
 import pandas as pd
 
 from io import StringIO
 from keras.models import load_model
-from tensorflow.keras.layers import LeakyReLU
-
-import matplotlib.pyplot as plt
-
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 UPLOAD_FOLDER = os.path.basename('data')
@@ -49,18 +39,13 @@ def predict():
     filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
     file.save(filename)
     
-    img = cv2.imread(filename, cv2.IMREAD_COLOR)
-    
+    img = cv2.imread(filename, cv2.IMREAD_COLOR)  
     img = cv2.resize(img, (28, 28))
-    
-    img=cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     
     out = run_model(img)
-    #model.predict(img)
-    print(out)
-    print(np.argmax(out))
     response = np.array_str(out)
+    
     return response
     
         

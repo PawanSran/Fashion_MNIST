@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+    <body>
+        <div class="s01">
+            <form action="/" method="POST">
+
+                <fieldset>
+
+                    <legend style="sans-serif;color:black;">Fashion Image Prediction</legend>
+
+
+                    <legend style="font-family:'Poppins', sans-serif;padding-left: 25px;
+                    font-size: 24px;color:black;text-align: center;"> Best predicted match for Image is {{ out_name }}! 
+                    </legend>   
+
+                </fieldset>
+
+                <div class="youtube-width">
+                    <div class="youtube-container">
+                        <img src = "{{ filename }}" alt="Issue while displaying image!!"/>
+                    </div>
+                </div>
+
+            </form>
+            
+        </div>
+    </body>
+
+{% endblock %}

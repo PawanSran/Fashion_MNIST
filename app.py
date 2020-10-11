@@ -10,11 +10,26 @@ from io import StringIO
 from keras.models import load_model
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
-UPLOAD_FOLDER = os.path.basename('data')
+NEW_UPLOAD_FOLDER = os.path.split('static/data/temp.ext')
+
+img_class_key = {
+    0: 't-shirt',
+    1: 'pants',
+    2: 'pullover',
+    3: 'dress',
+    4: 'coat',
+    5: 'sandal',
+    6: 'shirt',
+    7: 'sneakers',
+    8: 'handbag',
+    9: 'boot'
+}
 
 app = flask.Flask(__name__)
 
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config.update(NEW_UPLOAD_FOLDER = NEW_UPLOAD_FOLDER[0])
+
+
 H = 28
 W = 28
 
@@ -26,7 +41,7 @@ def run_model(input_arr, rows = 1):
     input_arr_1 = input_arr.reshape(rows, 28, 28, 1).astype('float')/255
     return model.predict(input_arr_1).argmax(axis=1)
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET']) 
 def index_page():
     return render_template('index.html')
 
@@ -36,18 +51,24 @@ def allowed_file(filename):
 @app.route('/predict', methods=['POST'])
 def predict():
     file = request.files['fileupload']
-    filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+    
+    filename = os.path.join(app.config['NEW_UPLOAD_FOLDER'], file.filename)
+  
     file.save(filename)
     
-    img = cv2.imread(filename, cv2.IMREAD_COLOR)  
+
+    img = cv2.imread(filename, cv2.IMREAD_COLOR) 
     img = cv2.resize(img, (28, 28))
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     
     out = run_model(img)
     response = np.array_str(out)
+    out_name = img_class_key[int(response[1])]
+
+    #print(response[1])
+    #print(out_name)
     
-    return response
-    
+    return render_template('output-page.html', **locals())
         
 # Below model as api ( call with specific test data in request and get response )
 # not-used define a ping  function as an endpoint to check health of the service
